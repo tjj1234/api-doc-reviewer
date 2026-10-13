@@ -1,0 +1,43 @@
+{
+  "name": "api-doc-reviewer",
+  "version": "0.1.0",
+  "description": "审查 API 文档是否适合 AI agent 使用（MCP / RAG / 浏览器三种消费模式），产出修改意见报告。core 为 agent-agnostic CLI，可跨 WorkBuddy / Claude / Cursor / Trae 复用。",
+  "type": "module",
+  "bin": {
+    "api-doc-reviewer": "core/index.js"
+  },
+  "main": "core/engine.js",
+  "exports": {
+    ".": "./core/engine.js",
+    "./loaders": "./core/loaders/index.js",
+    "./rules": "./core/rules/index.js"
+  },
+  "files": [
+    "core",
+    "skills",
+    "extension-notes",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "review": "node core/index.js",
+    "test": "node core/index.js --input ./examples/bad-openapi.json --mode A --format both"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "keywords": [
+    "api",
+    "openapi",
+    "agent",
+    "mcp",
+    "rag",
+    "documentation-review",
+    "llm-tooling"
+  ],
+  "license": "MIT",
+  "author": "A-Ban (WorkBuddy)"
+}

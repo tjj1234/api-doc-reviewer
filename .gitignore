@@ -1,0 +1,9 @@
+# 依赖与生成物
+node_modules/
+review-out/
+*.log
+debug.log
+
+# 系统文件
+.DS_Store
+Thumbs.db
