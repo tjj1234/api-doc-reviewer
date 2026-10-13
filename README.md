@@ -54,10 +54,15 @@ api-doc-reviewer/
 │   └── report/           # HTML + Markdown 报告
 ├── skills/workbuddy/     # WorkBuddy 薄适配 SKILL.md
 ├── extension-notes/      # Chrome 扩展构建 SPEC
+├── docs/                 # 完整设计规格
+│   └── SPEC.md           # 七层×三模式×两膜 + 检测全项映射 + 动态探针库
 ├── examples/             # 样例（含故意有缺陷的 bad-openapi.json）
 ├── LICENSE
 └── README.md
 ```
+
+## 设计文档
+完整设计规格见 [`docs/SPEC.md`](docs/SPEC.md)：七层框架 × 三消费模式 × 两层膜的元结构、七层×三模式检查强度矩阵、与桌面 PRD 的采纳对照、动态膜探针库（含 PT 视频 skill 踩坑档案 A/B 层 14 条种子）、报告规范、数据模型、双端（Skill + Chrome 扩展）与 GitHub 跨 agent 交付布局。
 
 ## License
 MIT
