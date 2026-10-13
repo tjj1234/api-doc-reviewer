@@ -27,6 +27,14 @@
 - 模型后端默认 **OpenAI-compatible 协议**（世界语），不锁定厂商；PT 网关 `https://api.powertokens.ai/v1` 兼容，指向即可。
 - 支持 **Agent-hosted 模式**：宿主 agent 回路里已有模型时，core 只跑规则引擎，零外部 LLM 依赖。
 
+## 网页版（免安装，浏览器里跑）
+
+不想装 Node？直接打开网页版，粘贴内容 / 上传文件 / 输入网址即可审查：
+
+**https://tjj1234.github.io/api-doc-reviewer-web/** （仓库：[api-doc-reviewer-web](https://github.com/tjj1234/api-doc-reviewer-web)）
+
+同一份 `core` 引擎，纯前端运行，文档不上传服务器。网页版跑的是**静态膜**（只看文档本身），动态膜受浏览器跨域限制不可用 —— 相关项会在报告首节的覆盖声明里明确标为「未测」，不冒充通过。需要完整两层膜请用下面的命令行版本。
+
 ## 快速开始
 ```bash
 npm install
