@@ -1,6 +1,7 @@
 // loaders/openapi.js — 解析 OpenAPI / Swagger 文档（JSON 或 YAML）
-import fs from 'node:fs';
-import path from 'node:path';
+// 浏览器兼容：不在顶层 import node: 内建模块，仅在 fromFile 分支按需动态引入，
+// 因此在浏览器（含网页版 / Chrome 扩展）中直接 import 本文件是安全的。
+// js-yaml 通过裸说明符动态引入：Node 走 node_modules，浏览器走 index.html 的 importmap（CDN）。
 
 // 延迟加载 js-yaml（仅 YAML 时需要），避免 JSON 场景的硬依赖
 let yaml = null;
@@ -22,9 +23,10 @@ function isLikelyYaml(content) {
 }
 
 // 从文件或字符串解析为 OpenAPI 对象
-export async function parseOpenApi(input, { fromFile = true } = {}) {
+export async function parseOpenApi(input, { fromFile = false } = {}) {
   let content;
   if (fromFile) {
+    const fs = await import('node:fs'); // 仅 Node 文件场景，浏览器不会走到这里
     content = fs.readFileSync(input, 'utf8');
   } else {
     content = input;
@@ -92,6 +94,5 @@ export function eachOperation(doc, cb) {
 }
 
 export function isOpenApiFile(file) {
-  const ext = path.extname(file).toLowerCase();
-  return ext === '.json' || ext === '.yaml' || ext === '.yml';
+  return /\.(json|ya?ml)$/i.test(String(file || ''));
 }

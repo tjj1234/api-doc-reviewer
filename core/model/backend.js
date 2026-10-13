@@ -5,24 +5,29 @@
 //  3. 支持 Agent-hosted 模式：宿主 agent 回路里已有模型时，可把 ctx.model 设为 { hosted: true }，
 //     由宿主 agent 自行调用，core 不联网。此处仅提供独立调用实现。
 
+// 安全读取环境变量：浏览器 / Chrome 扩展里没有 process，需避免 ReferenceError
+function env(key) {
+  return typeof process !== 'undefined' && process.env ? process.env[key] : undefined;
+}
+
 // 解析模型配置：显式 ctx.model > 环境变量
 export function resolveModelConfig(ctx = {}) {
   if (ctx.model && typeof ctx.model === 'object') {
     if (ctx.model.hosted) return { hosted: true };
     if (ctx.model.base_url || ctx.model.api_key) {
       return {
-        base_url: (ctx.model.base_url || process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1').replace(/\/$/, ''),
-        api_key: ctx.model.api_key || process.env.OPENAI_API_KEY || '',
-        model: ctx.model.model || process.env.OPENAI_MODEL || 'gpt-4o-mini',
+        base_url: (ctx.model.base_url || env('OPENAI_BASE_URL') || 'https://api.openai.com/v1').replace(/\/$/, ''),
+        api_key: ctx.model.api_key || env('OPENAI_API_KEY') || '',
+        model: ctx.model.model || env('OPENAI_MODEL') || 'gpt-4o-mini',
       };
     }
   }
   // 仅环境变量
-  if (process.env.OPENAI_API_KEY) {
+  if (env('OPENAI_API_KEY')) {
     return {
-      base_url: (process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1').replace(/\/$/, ''),
-      api_key: process.env.OPENAI_API_KEY,
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      base_url: (env('OPENAI_BASE_URL') || 'https://api.openai.com/v1').replace(/\/$/, ''),
+      api_key: env('OPENAI_API_KEY'),
+      model: env('OPENAI_MODEL') || 'gpt-4o-mini',
     };
   }
   return null; // 未配置 → 降级

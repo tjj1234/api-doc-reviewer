@@ -1,15 +1,11 @@
 // loaders/text.js — 加载散文 / markdown 文档（docs 站点内容、README、说明文）
-import fs from 'node:fs';
+// 浏览器兼容：纯字符串处理，不依赖任何 node: 内建模块。
+// 文件读取由调用方（CLI 的 loaders/index.js）负责，读完后把字符串传进来。
 
-// 从文件或字符串加载为文本文档。散文形态下，规则引擎主要依赖模型后端做语义判断，
+// 从字符串加载为文本文档。散文形态下，规则引擎主要依赖模型后端做语义判断，
 // 但 L0 形态层可先做结构性启发式（标题层级、篇幅、代码块）。
-export function parseText(input, { fromFile = true } = {}) {
-  let content;
-  if (fromFile) {
-    content = fs.readFileSync(input, 'utf8');
-  } else {
-    content = input;
-  }
+export function parseText(input) {
+  const content = input;
   if (!content || !content.trim()) {
     throw new Error('文本文档为空。');
   }
